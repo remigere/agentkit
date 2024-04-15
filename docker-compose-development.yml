@@ -2,15 +2,16 @@ version: '3.8'
 
 services:
   fastapi_server:
+    platform: linux/amd64  # Specify platform here
     container_name: fastapi_server
     build: ./backend
     restart: always
+    # command: "sh -c 'alembic upgrade head && python app/document_ingestion.py  && uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 9090'"
     # Enable debug mode run .vscode/launch.json -> "Debug: Attach to FastAPI Docker"
-    # command: "sh -c 'pip install debugpy -t /tmp && alembic upgrade head && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 -m uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 9090 --loop asyncio'"
-    # ports:
-    #   - 5678:5678
+    command: "sh -c 'pip install debugpy -t /tmp && alembic upgrade head && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 -m uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 9090 --loop asyncio'"
+    ports:
+      - 5678:5678
     # Disable debug mode if only frontend development
-    command: "sh -c 'alembic upgrade head && python app/document_ingestion.py && uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 9090'"
     volumes:
       - ./backend/app:/code
     expose:
@@ -19,7 +20,28 @@ services:
     depends_on:
       - database
 
+
+  nextjs_server:
+    platform: linux/amd64  # Specify platform here
+    container_name: nextjs_server
+    build: ./frontend
+    restart: always
+    # command: "sh -c 'node server.js'"
+    command: "node --inspect=0.0.0.0:9229 -r ts-node/register server.js"
+    volumes:
+      - ./frontend:/code
+    ports:
+      - 3000:3000
+      - 9229:9229
+    expose:
+      - 3000
+    env_file: "frontend/.env"
+    depends_on:
+      - fastapi_server
+
+
   database:
+    platform: linux/amd64  # Specify platform here
     image: ankane/pgvector:v0.4.1
     restart: always
     container_name: database
@@ -39,6 +61,7 @@ services:
       - POSTGRES_HOST_AUTH_METHOD= "trust"
 
   redis_server:
+    platform: linux/amd64  # Specify platform here
     image: redis:alpine
     container_name: redis_server
     restart: always
@@ -49,6 +72,7 @@ services:
     env_file: .env
 
   caddy_reverse_proxy:
+    platform: linux/amd64  # Specify platform here
     container_name: caddy_reverse_proxy
     image: caddy:alpine
     restart: always

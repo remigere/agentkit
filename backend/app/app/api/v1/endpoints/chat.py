@@ -73,7 +73,7 @@ async def agent_chat(
     Returns:
         StreamingResponse: The streaming response of the conversation.
     """
-    logger.info(f"User JWT from request: {jwt}")
+    logger.info(f"**** User JWT from request: {jwt}")
 
     api_key = chat.api_key
     if api_key is None or api_key == "":
@@ -105,7 +105,7 @@ async def agent_chat(
             stream_handler,
         )
     )
-
+    
     return StreamingJsonListResponse(
         event_generator(stream_handler),
         media_type="text/plain",
