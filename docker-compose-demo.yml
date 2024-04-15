@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   fastapi_server:
-    platform: linux/amd64  # Specify platform here
+    # platform: linux/amd64  # Specify platform here
     container_name: fastapi_server
     build: ./backend
     restart: always
@@ -11,12 +11,12 @@ services:
       - ./backend/app:/code
     expose:
       - 9090
-    env_file: ".env"
+    env_file: .env
     depends_on:
       - database
 
   nextjs_server:
-    platform: linux/amd64  # Specify platform here
+    # platform: linux/amd64  # Specify platform here
     container_name: nextjs_server
     build: ./frontend
     restart: always
@@ -36,7 +36,7 @@ services:
     image: ankane/pgvector:v0.4.1
     restart: always
     container_name: database
-    env_file: ".env"
+    env_file: .env
     user: root
     volumes:
       - ./db_docker:/var/lib/postgresql

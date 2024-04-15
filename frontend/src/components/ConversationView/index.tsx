@@ -118,6 +118,19 @@ const ConversationView = () => {
       })
     }
 
+    console.log(
+      `Sending message to ${env.NEXT_PUBLIC_API_URL}/chat/agent with payload:`,
+      JSON.stringify({
+        messages: formatedMessageList,
+        api_key: localStorage.getItem("openaiApiKey") || undefined,
+        org_id: localStorage.getItem("openaiOrgId") || undefined,
+        conversation_id: currentConversation.id,
+        new_message_id: message.id,
+        user_email: session?.user?.name || "no-auth",
+        settings: settingsStore.setting,
+      })
+    )
+
     try {
       const rawRes = await fetch(`${env.NEXT_PUBLIC_API_URL}/chat/agent`, {
         method: "POST",
@@ -138,6 +151,7 @@ const ConversationView = () => {
           "Content-Type": "application/json",
         },
       })
+      console.log(rawRes)
 
       if (!rawRes.ok) {
         console.error(rawRes)
@@ -165,6 +179,7 @@ const ConversationView = () => {
       let done = false
       while (!done) {
         const { value, done: readerDone } = await reader.read()
+        console.log("value", value)
         if (value) {
           const { data_type, data, metadata } = value
           if (data && data.length > 0) {
@@ -183,13 +198,14 @@ const ConversationView = () => {
               }
             } else if (data_type === "llm") {
               message.content = message.content + data
+              console.log("message.content", message.content)
             } else {
               message.events.push(value)
             }
             messageStore.updateMessage(message.id, {
               content: message.content,
             })
-
+            console.log("message.content", message.content)
             // Check if the message is cancelled
             const updatedStatus = messageStore.getState().messageList.find((m) => m.id === message.id)?.status
             if (updatedStatus === "CANCELLED") break
