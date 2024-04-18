@@ -25,6 +25,7 @@ from app.core.fastapi import FastAPIWithInternalModels
 from app.utils.config_loader import load_agent_config, load_ingestion_configs
 from app.utils.fastapi_globals import GlobalsMiddleware, g
 
+# debugger;
 
 async def user_id_identifier(request: Request) -> str:
     """Identify the user from the request."""

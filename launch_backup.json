@@ -1,0 +1,85 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    
+
+      {
+          "name": "Debug: Attach to FastAPI Docker",
+          "type": "python",
+          "request": "attach",
+          "host": "localhost",
+          "port": 5678,
+          "pathMappings": [
+              {
+                  "localRoot": "${workspaceFolder}/backend/app",
+                  "remoteRoot": "/code"
+              }
+          ],
+      },
+      {
+        "name": "Run current file",
+        "type": "python",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal",
+        "envFile": "${workspaceFolder}/.env",
+        "externalConsole": true,
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/src", // Adjust this path to match where your source files are relative to your workspace root
+      "sourceMaps": true,
+      "userDataDir": "${workspaceFolder}/.vscode/chrome",
+      "breakOnLoad": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./src/*": "${webRoot}/*"
+      }
+  }
+  ]
+}
+
+// {
+//   "version": "0.2.0",
+//   "configurations": [
+
+//     {
+//       "name": "Debug: Attach to FastAPI Docker",
+//       "type": "python",
+//       "request": "attach",
+//       "host": "localhost",
+//       "port": 5678,
+//       "pathMappings": [
+//         {
+//           "localRoot": "${workspaceFolder}/backend/app",  // Adjust this path to your local backend source code directory
+//           "remoteRoot": "/code"  // Adjust this to match the path in the Docker container where your backend code resides
+//         }
+//       ]
+//     },
+//     {
+//       "name": "Run current file",
+//       "type": "python",
+//       "request": "launch",
+//       "program": "${file}",
+//       "console": "integratedTerminal",
+//       "envFile": "${workspaceFolder}/.env",
+//       "externalConsole": true,
+//       // "stopOnEntry": true,
+//     },
+//     {
+//       "type": "pwa-chrome",
+//       "request": "launch",
+//       "name": "Launch Chrome for Frontend Debugging",
+//       "url": "http://localhost:3000",  // Adjust this if your frontend runs on a different port
+//       "webRoot": "${workspaceFolder}/frontend/src",  // Adjust this path to where your frontend source files are located
+//       "sourceMaps": true,
+//       "breakOnLoad": true,
+//       // "stopOnEntry": true,
+//       "sourceMapPathOverrides": {
+//         "webpack:///src/*": "${webRoot}/*"
+//       }
+//     }
+//   ]
+// }

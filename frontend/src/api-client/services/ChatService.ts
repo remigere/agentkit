@@ -67,6 +67,8 @@ export class ChatService {
    * @throws ApiError
    */
   public static agentChatApiV1ChatAgentPost(requestBody: IChatQuery): CancelablePromise<any> {
+    console.log("****** agentChatApiV1ChatAgentPost called with", requestBody)
+
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/v1/chat/agent",

@@ -1,7 +1,7 @@
 ---
 tools_library: !include tools.yml
 common: # settings shared by agent and all tools (can be overwritten by passing explicitly to constructors)
-  llm: 'gpt-4'
+  llm: 'gpt-3.5-turbo'
   fast_llm: 'gpt-3.5-turbo'
   fast_llm_token_limit: 2500
   max_token_length: 4000

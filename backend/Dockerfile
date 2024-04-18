@@ -14,6 +14,9 @@ COPY app/pyproject.toml app/poetry.lock* /code/
 # Allow installing dev dependencies to run tests
 ARG INSTALL_DEV=false
 RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --with dev --no-root ; else poetry install --no-root --no-dev ; fi"
+COPY ./app /code/app
 
-ENV PYTHONPATH=/code
+ENV PYTHONPATH=/code:/code/app
 EXPOSE 9090
+
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "app.main:app"]

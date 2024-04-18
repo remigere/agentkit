@@ -9,3 +9,4 @@ declare module "can-ndjson-stream" {
     cancel: () => void
   }
 }
+e

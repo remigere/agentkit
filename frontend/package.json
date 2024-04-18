@@ -24,7 +24,8 @@
     "prepare": "cd ../ && husky install ./frontend/.husky",
     "preinstall": "npx npm-only-allow@latest --PM pnpm",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --e2e"
+    "cypress:run": "cypress run --e2e",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@datadog/browser-rum": "^5.9.0",
@@ -67,6 +68,7 @@
     "rehype-raw": "^6.1.1",
     "remark-gfm": "^3.0.1",
     "styled-components": "5",
+    "ts-node": "^10.9.2",
     "uuid": "^9.0.0",
     "zod": "^3.22.4",
     "zustand": "^4.3.8"
